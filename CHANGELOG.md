@@ -1,3 +1,3 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+* A collection of customizable Flutter widgets designed for rapid UI development. MComponents provides ready-to-use components with consistent styling and behavior.
