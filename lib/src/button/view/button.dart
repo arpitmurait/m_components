@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mcomponents/mcomponents.dart';
+import 'package:m_components/m_components.dart';
 
 /// A customizable button widget with different states and styling options.
 ///
@@ -25,6 +25,8 @@ class MButton extends StatelessWidget {
     this.isLoading,
     this.disabled,
     this.icon,
+    this.fontSize,
+    this.height = 45,
   });
 
   /// The text displayed on the button.
@@ -60,6 +62,8 @@ class MButton extends StatelessWidget {
 
   /// If set, the icon will be placed to the left of the label.
   final IconData? icon;
+  final double? fontSize;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +79,7 @@ class MButton extends StatelessWidget {
         child: Opacity(
           opacity: disabled == true ? 0.5 : 1,
           child: Container(
-            height: 45,
+            height: height,
             decoration: buildDecoration(color),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 5),
@@ -118,7 +122,7 @@ class MButton extends StatelessWidget {
             MText(
               buttonFunc != null ? label.toUpperCase() : label,
               color: itemsColor,
-              fontSize: 26,
+              fontSize: fontSize,
               fontWeight: FontWeight.w500,
             ),
           ],

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mcomponents/mcomponents.dart';
+import 'package:m_components/m_components.dart';
 
 class MText extends StatelessWidget {
   const MText(
@@ -14,6 +14,7 @@ class MText extends StatelessWidget {
     this.maxLines,
     this.overflow,
     this.textAlign,
+    this.decoration,
   });
 
   final String text;
@@ -26,18 +27,20 @@ class MText extends StatelessWidget {
   final int? maxLines;
   final TextOverflow? overflow;
   final TextAlign? textAlign;
+  final TextDecoration? decoration;
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
       style: TextStyle(
-        color: color ?? Colors.black,
+        color: color,
         fontSize: fontSize ?? 18,
         fontWeight: fontWeight ?? FontWeight.normal,
-        fontFamily: MWidgetConfig().fontFamily ?? fontFamily,
+        fontFamily: fontFamily ?? MWidgetConfig().fontFamily,
         fontStyle: italic == true ? FontStyle.italic : null,
         height: height,
+        decoration: decoration,
       ),
       maxLines: maxLines,
       overflow: overflow,

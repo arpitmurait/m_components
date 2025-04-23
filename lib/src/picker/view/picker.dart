@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mcomponents/mcomponents.dart';
+import 'package:m_components/m_components.dart';
 
 /// A customizable dropdown picker widget that displays selectable options in a modal sheet.
 ///
@@ -25,6 +25,7 @@ class MPicker extends StatefulWidget {
     required this.values,
     required this.updateValue,
     this.deleteAction,
+    this.fontSize,
   });
 
   /// Optional label text displayed next to the picker.
@@ -55,6 +56,7 @@ class MPicker extends StatefulWidget {
 
   /// The currently selected value to display in the picker.
   dynamic selectedValue;
+  double? fontSize;
 
   @override
   State<MPicker> createState() => _CustomPickerState();
@@ -119,6 +121,7 @@ class _CustomPickerState extends State<MPicker> {
             mainColor: widget.mainColor,
             bottomSheet: MItemSelector(
               label: widget.label,
+              fontSize: widget.fontSize,
               selectedValue: widget.selectedValue,
               values: widget.values,
               updateValue: (dynamic element) {
@@ -145,7 +148,7 @@ class _CustomPickerState extends State<MPicker> {
                       widget.selectedValue == null
                           ? '-'
                           : '${widget.selectedValue}',
-                      fontSize: 24,
+                      fontSize: widget.fontSize,
                       color: Colors.black,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

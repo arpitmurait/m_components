@@ -3,7 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:mcomponents/mcomponents.dart';
+import 'package:m_components/m_components.dart';
+
 
 /// A customizable text field widget with optional label and various input controls.
 ///
@@ -17,6 +18,10 @@ class MTextField extends StatefulWidget {
   const MTextField({
     super.key,
     this.label,
+    this.labelColor,
+    this.borderColor,
+    this.fillColor,
+    this.fontColor,
     this.hintText,
     this.initialValue,
     this.updateValue,
@@ -33,11 +38,19 @@ class MTextField extends StatefulWidget {
     this.textEditingController,
     this.textAlignVertical,
     this.maxLines,
+    this.textAlign = TextAlign.start,
+    this.validator,
+    this.fontSize,
+    this.border,
   });
 
   /// Optional label displayed next to the text field.
   /// By default, displayed in uppercase unless [descriptionLowercased] is true.
   final String? label;
+  final Color? labelColor;
+  final Color? borderColor;
+  final Color? fillColor;
+  final Color? fontColor;
 
   /// Placeholder text displayed when the text field is empty.
   final String? hintText;
@@ -101,6 +114,10 @@ class MTextField extends StatefulWidget {
   /// if height is not specified, it will be automatically
   /// set based on the number of maxLines.
   final int? maxLines;
+  final double? fontSize;
+  final TextAlign textAlign;
+  final FormFieldValidator? validator;
+  final InputBorder? border;
 
   @override
   State<MTextField> createState() => _MTextFieldState();
@@ -145,22 +162,22 @@ class _MTextFieldState extends State<MTextField> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment:
-          (widget.maxLines ?? 0) > 1
-              ? CrossAxisAlignment.start
-              : CrossAxisAlignment.center,
+      (widget.maxLines ?? 0) > 1
+          ? CrossAxisAlignment.start
+          : CrossAxisAlignment.center,
       children: [
         if (widget.label != null) buildLabel(),
         Expanded(
           child: SizedBox(
             width:
-                MediaQuery.of(context).size.width /
+            MediaQuery.of(context).size.width /
                 (widget.label == null
                     ? 1
                     : kIsWeb == true
                     ? 3
                     : 1.9),
             height:
-                widget.height ??
+            widget.height ??
                 ((widget.maxLines ?? 0) > 1
                     ? (40 * widget.maxLines!).toDouble()
                     : 55),
@@ -168,8 +185,8 @@ class _MTextFieldState extends State<MTextField> {
               children: [
                 buildActionsWithTF(),
                 if ((widget.textEditingController ?? controller)
-                        .text
-                        .isNotEmpty &&
+                    .text
+                    .isNotEmpty &&
                     widget.readOnly != true)
                   buildButtons(),
               ],
@@ -188,9 +205,9 @@ class _MTextFieldState extends State<MTextField> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment:
-              (widget.maxLines ?? 0) > 1
-                  ? CrossAxisAlignment.start
-                  : CrossAxisAlignment.center,
+          (widget.maxLines ?? 0) > 1
+              ? CrossAxisAlignment.start
+              : CrossAxisAlignment.center,
           children: [
             Padding(
               padding: const EdgeInsets.only(right: 10),
@@ -232,9 +249,9 @@ class _MTextFieldState extends State<MTextField> {
       padding: const EdgeInsets.only(right: 10),
       child: SizedBox(
         width:
-            kIsWeb == true
-                ? (MediaQuery.of(context).size.width * 2 / 3) / 3.5
-                : MediaQuery.of(context).size.width / 3.8,
+        kIsWeb == true
+            ? (MediaQuery.of(context).size.width * 2 / 3) / 3.5
+            : MediaQuery.of(context).size.width / 3.8,
         child: FittedBox(
           alignment: Alignment.centerLeft,
           fit: BoxFit.scaleDown,
@@ -242,7 +259,7 @@ class _MTextFieldState extends State<MTextField> {
             widget.descriptionLowercased == true
                 ? widget.label!
                 : widget.label!.toUpperCase(),
-            color: MColors.darkGrey,
+            color: widget.labelColor ?? MColors.darkGrey,
             fontSize: 14,
             maxLines: 1,
           ),
@@ -256,29 +273,29 @@ class _MTextFieldState extends State<MTextField> {
       keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
       nextFocus: false,
       actions:
-          widget.readOnly != true && kIsWeb != true
-              ? [
-                KeyboardActionsItem(
-                  focusNode: focusNode,
-                  displayArrows: false,
-                  toolbarButtons: [
-                    (node) {
-                      return MGestureDetector(
-                        onTap: () {
-                          node.unfocus();
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: MText(
-                            MLocalization.instance.translate('Close'),
-                          ),
-                        ),
-                      );
-                    },
-                  ],
+      widget.readOnly != true && kIsWeb != true
+          ? [
+        KeyboardActionsItem(
+          focusNode: focusNode,
+          displayArrows: false,
+          toolbarButtons: [
+                (node) {
+              return MGestureDetector(
+                onTap: () {
+                  node.unfocus();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: MText(
+                    MLocalization.instance.translate('Close'),
+                  ),
                 ),
-              ]
-              : [],
+              );
+            },
+          ],
+        ),
+      ]
+          : [],
     );
   }
 
@@ -288,9 +305,9 @@ class _MTextFieldState extends State<MTextField> {
         left: 10,
         top: 8,
         right:
-            10 +
+        10 +
             ((widget.textEditingController ?? controller).text.isNotEmpty &&
-                    widget.readOnly != true
+                widget.readOnly != true
                 ? 28
                 : 0) +
             (widget.obscureText != null ? 36 : 0),
@@ -299,16 +316,16 @@ class _MTextFieldState extends State<MTextField> {
       isDense: true,
       filled: true,
       hintText: widget.hintText,
-      hintStyle: TextStyle(color: MColors.darkGrey, fontSize: 20),
-      fillColor: Colors.white,
-      focusedBorder: OutlineInputBorder(
+      hintStyle: TextStyle(color: widget.labelColor ?? MColors.darkGrey, fontSize: 20),
+      fillColor: widget.fillColor ?? Colors.white,
+      border: widget.border,
+      focusedBorder: widget.border ?? OutlineInputBorder(
         borderSide: BorderSide(color: mainColor, width: 2),
         borderRadius: BorderRadius.circular(10),
       ),
-      enabledBorder: OutlineInputBorder(
+      enabledBorder: widget.border ?? OutlineInputBorder(
         borderSide: BorderSide(
-          color:
-              widget.readOnly == true ? Colors.transparent : MColors.darkGrey,
+          color: widget.borderColor ?? ((widget.readOnly == true) ? Colors.transparent : MColors.darkGrey),
           width: 1.5,
         ),
         borderRadius: BorderRadius.circular(10),
@@ -326,83 +343,87 @@ class _MTextFieldState extends State<MTextField> {
 
   Widget buildTextField() {
     return (widget.maxLines ?? 0) > 1
-        ? TextField(
-          readOnly: widget.readOnly ?? false,
-          textCapitalization:
-              widget.textCapitalization == true
-                  ? TextCapitalization.characters
-                  : TextCapitalization.none,
-          maxLines: widget.maxLines,
-          keyboardType: TextInputType.multiline,
-          focusNode: focusNode,
-          textInputAction: widget.textInputAction,
-          enableSuggestions: false,
-          autocorrect: false,
-          controller: widget.textEditingController ?? controller,
-          cursorColor: mainColor,
-          onChanged: (String value) {
-            setState(() {
-              (widget.textEditingController ?? controller).text = value;
-              (widget.textEditingController ?? controller)
-                  .selection = TextSelection.fromPosition(
-                TextPosition(offset: value.length),
-              );
-              if (widget.updateValue != null) {
-                widget.updateValue!(value);
-              }
-            });
-          },
-          onSubmitted: (String value) {
-            if (widget.submitAction != null) {
-              FocusManager.instance.primaryFocus?.unfocus();
-              widget.submitAction!(value);
-            }
-          },
-          style: TextStyle(
-            fontSize: 24,
-            color: widget.readOnly == true ? MColors.darkGrey : Colors.black,
-          ),
-          textAlignVertical: widget.textAlignVertical ?? TextAlignVertical.top,
-          decoration: buildDecoration(),
-        )
-        : TextField(
-          readOnly: widget.readOnly ?? false,
-          textCapitalization:
-              widget.textCapitalization == true
-                  ? TextCapitalization.characters
-                  : TextCapitalization.none,
-          keyboardType: widget.keyboardType,
-          focusNode: focusNode,
-          textInputAction: widget.textInputAction,
-          obscureText: widget.obscureText == null ? false : widget.obscureText!,
-          enableSuggestions: false,
-          autocorrect: false,
-          controller: widget.textEditingController ?? controller,
-          cursorColor: mainColor,
-          onChanged: (String value) {
-            setState(() {
-              (widget.textEditingController ?? controller).text = value;
-              (widget.textEditingController ?? controller)
-                  .selection = TextSelection.fromPosition(
-                TextPosition(offset: value.length),
-              );
-              if (widget.updateValue != null) {
-                widget.updateValue!(value);
-              }
-            });
-          },
-          onSubmitted: (String value) {
-            if (widget.submitAction != null) {
-              FocusManager.instance.primaryFocus?.unfocus();
-              widget.submitAction!(value);
-            }
-          },
-          style: TextStyle(
-            fontSize: 24,
-            color: widget.readOnly == true ? MColors.darkGrey : Colors.black,
-          ),
-          textAlignVertical: widget.textAlignVertical ?? TextAlignVertical.top,
-          decoration: buildDecoration(),
-        );
+        ? TextFormField(
+      readOnly: widget.readOnly ?? false,
+      textCapitalization:
+      widget.textCapitalization == true
+          ? TextCapitalization.characters
+          : TextCapitalization.none,
+      maxLines: widget.maxLines,
+      keyboardType: TextInputType.multiline,
+      focusNode: focusNode,
+      textInputAction: widget.textInputAction,
+      enableSuggestions: false,
+      autocorrect: false,
+      controller: widget.textEditingController ?? controller,
+      cursorColor: mainColor,
+      onChanged: (String value) {
+        setState(() {
+          (widget.textEditingController ?? controller).text = value;
+          (widget.textEditingController ?? controller)
+              .selection = TextSelection.fromPosition(
+            TextPosition(offset: value.length),
+          );
+          if (widget.updateValue != null) {
+            widget.updateValue!(value);
+          }
+        });
+      },
+      textAlign: widget.textAlign,
+      onFieldSubmitted: (String value) {
+        if (widget.submitAction != null) {
+          FocusManager.instance.primaryFocus?.unfocus();
+          widget.submitAction!(value);
+        }
+      },
+      style: TextStyle(
+        fontSize: widget.fontSize,
+        color: widget.fontColor ?? (widget.readOnly == true ? MColors.darkGrey : null),
+      ),
+      textAlignVertical: widget.textAlignVertical ?? TextAlignVertical.top,
+      decoration: buildDecoration(),
+      validator: widget.validator,
+    )
+        : TextFormField(
+      readOnly: widget.readOnly ?? false,
+      textCapitalization:
+      widget.textCapitalization == true
+          ? TextCapitalization.characters
+          : TextCapitalization.none,
+      keyboardType: widget.keyboardType,
+      focusNode: focusNode,
+      textInputAction: widget.textInputAction,
+      obscureText: widget.obscureText == null ? false : widget.obscureText!,
+      enableSuggestions: false,
+      autocorrect: false,
+      controller: widget.textEditingController ?? controller,
+      cursorColor: mainColor,
+      onChanged: (String value) {
+        setState(() {
+          (widget.textEditingController ?? controller).text = value;
+          (widget.textEditingController ?? controller)
+              .selection = TextSelection.fromPosition(
+            TextPosition(offset: value.length),
+          );
+          if (widget.updateValue != null) {
+            widget.updateValue!(value);
+          }
+        });
+      },
+      textAlign: widget.textAlign,
+      onFieldSubmitted: (String value) {
+        if (widget.submitAction != null) {
+          FocusManager.instance.primaryFocus?.unfocus();
+          widget.submitAction!(value);
+        }
+      },
+      style: TextStyle(
+        fontSize: widget.fontSize,
+        color: widget.fontColor ?? (widget.readOnly == true ? MColors.darkGrey : null),
+      ),
+      textAlignVertical: widget.textAlignVertical ?? TextAlignVertical.top,
+      decoration: buildDecoration(),
+      validator: widget.validator,
+    );
   }
 }

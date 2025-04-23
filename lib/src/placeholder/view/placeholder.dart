@@ -1,4 +1,4 @@
-import 'package:mcomponents/mcomponents.dart';
+import 'package:m_components/m_components.dart';
 import 'package:flutter/material.dart';
 
 /// A customizable placeholder widget for empty states or loading screens.

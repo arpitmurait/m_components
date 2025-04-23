@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mcomponents/mcomponents.dart';
+import 'package:m_components/m_components.dart';
 
 /// A customizable widget for displaying a label alongside a value.
 ///

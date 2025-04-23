@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mcomponents/mcomponents.dart';
+import 'package:m_components/m_components.dart';
 
 /// A customizable radio button group widget with support for text or icon options.
 ///
@@ -107,7 +107,7 @@ class MRadio extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(10),
             child:
-                button.contains(button)
+                (button.contains(button) && buttonIcons != null)
                     ? Icon(
                       buttonIcons![buttons.indexOf(button)],
                       color:

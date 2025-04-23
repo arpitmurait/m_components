@@ -1,14 +1,14 @@
-# MComponenets
+# MComponents
 
 A collection of customizable Flutter widgets designed for rapid UI development. MComponents provides ready-to-use components with consistent styling and behavior.
 
 ## Installation
 
-To use this package, add `mcomponents` as a dependency in your `pubspec.yaml` file:
+To use this package, add `m_components` as a dependency in your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  mcomponents: ^latest_version
+  m_components: ^latest_version
 ```
 
 ## Configuration
@@ -279,6 +279,62 @@ MRadio(
 - Customizable colors
 - Automatic border radius handling for first/last items
 - Consistent styling with the rest of the library
+
+### MCheckBox
+
+A customizable checkbox button widget.
+
+```dart
+MCheckBox(
+  onChnage: (val) {},
+  initVal: true,
+),
+```
+
+**Key Features:**
+
+- Horizontal checkbox button layout
+- Single selection with clear visual feedback
+- Customizable colors
+- border radius handling
+- Consistent styling with the rest of the library
+
+### MDropdownButton
+
+A customizable dropdown button widget.
+
+```dart
+MDropdownButton(
+  onChanged: (value) {},
+  dropdownItems: _radioOptions,
+  value: _selectedOption2,
+  hint: "Select Value",
+)
+```
+
+**Key Features:**
+
+- Horizontal dropdown button layout
+- Selection with updated values
+- Customizable colors
+- border radius handling
+- change height and width of button and max values.
+
+### MLoader
+
+A stylized loader widget that mimics iOS and android style UI elements for consistent Cupertino design.
+
+```dart
+MLoader(
+type: MLoaderType.ios,
+)
+```
+
+**Key Features:**
+
+- iOS and android container styling
+- show loading type wise
+- color handling for all loaders
 
 ### MCupertinoBox
 

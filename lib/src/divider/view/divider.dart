@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mcomponents/mcomponents.dart';
+import 'package:m_components/m_components.dart';
 
 class MDivider extends StatelessWidget {
   const MDivider({super.key, this.thickness, this.height});

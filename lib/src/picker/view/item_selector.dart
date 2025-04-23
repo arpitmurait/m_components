@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:mcomponents/mcomponents.dart';
+import 'package:m_components/m_components.dart';
 
 // ignore: must_be_immutable
 class MItemSelector extends StatelessWidget {
   MItemSelector({
     super.key,
     this.label,
+    this.fontSize,
     required this.selectedValue,
     required this.values,
     required this.updateValue,
   });
 
   final String? label;
+  final double? fontSize;
   final Iterable<dynamic> values;
   final Function(dynamic element) updateValue;
 
@@ -68,7 +70,7 @@ class MItemSelector extends StatelessWidget {
             children: [
               MText(
                 element == null ? '-' : '$element',
-                fontSize: 20,
+                fontSize: fontSize,
                 color: Colors.black,
               ),
               if (values.last != element)

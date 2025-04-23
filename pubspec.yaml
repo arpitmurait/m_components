@@ -1,7 +1,7 @@
-name: mcomponents
-description: "mcomponents is custom components created by murait technologies."
+name: m_components
+description: "m_components is custom components library created by Murait Technologies."
 version: 0.0.1
-homepage:
+homepage: https://github.com/arpitmurait/m_components
 
 environment:
   sdk: ^3.7.2
@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   keyboard_actions:
+  cached_network_image:
 
 dev_dependencies:
   flutter_test:

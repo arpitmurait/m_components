@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mcomponents/mcomponents.dart';
+import 'package:m_components/m_components.dart';
 
 /// A customizable toggle switch widget with a description label.
 ///
@@ -19,6 +19,7 @@ class MToggle extends StatefulWidget {
     this.description,
     this.readOnly,
     this.mainColor,
+    this.inactiveColor,
   });
 
   /// Callback function triggered when the toggle value changes.
@@ -38,6 +39,7 @@ class MToggle extends StatefulWidget {
   /// The color used for the active state of the toggle.
   /// Defaults to blue if not specified.
   final Color? mainColor;
+  final Color? inactiveColor;
 
   @override
   State<MToggle> createState() => _RPToggleState();
@@ -86,8 +88,8 @@ class _RPToggleState extends State<MToggle> {
         activeTrackColor: color.withValues(
           alpha: widget.readOnly == true ? 0.2 : 0.5,
         ),
-        inactiveThumbColor: MColors.darkGrey,
-        inactiveTrackColor: MColors.darkGrey.withValues(alpha: 0.5),
+        inactiveThumbColor: widget.inactiveColor ?? MColors.darkGrey,
+        inactiveTrackColor: widget.inactiveColor ?? MColors.darkGrey.withValues(alpha: 0.5),
         trackOutlineColor: WidgetStateColor.resolveWith((states) {
           return Colors.transparent;
         }),

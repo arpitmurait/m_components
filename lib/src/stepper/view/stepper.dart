@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mcomponents/mcomponents.dart';
+import 'package:m_components/m_components.dart';
 
 /// A customizable stepper widget for incrementing and decrementing values.
 ///
@@ -25,6 +25,9 @@ class MStepper extends StatelessWidget {
     this.description,
     this.outlined,
     this.descriptionMaxLines,
+    this.height,
+    this.width,
+    this.fontSize,
   });
 
   /// The current quantity value displayed in the stepper.
@@ -51,18 +54,26 @@ class MStepper extends StatelessWidget {
   /// The maximum number of lines the description can span.
   /// Defaults to 1 if not specified.
   final int? descriptionMaxLines;
+  final double? height;
+  final double? width;
+  final double? fontSize;
 
   @override
   Widget build(BuildContext context) {
     Color color = mainColor ?? MWidgetConfig().mainColor;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        if (description != null) buildDescription(context),
-        buildQuantityButton(context, decrement: true, color: color),
-        Expanded(flex: 3, child: buildText(context)),
-        buildQuantityButton(context, decrement: false, color: color),
-      ],
+    return SizedBox(
+      height: height,
+      width: width,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          if (description != null) buildDescription(context),
+          buildQuantityButton(context, decrement: true, color: color),
+          Expanded(flex: 3, child: buildText(context)),
+          buildQuantityButton(context, decrement: false, color: color),
+        ],
+      ),
     );
   }
 
@@ -81,7 +92,9 @@ class MStepper extends StatelessWidget {
                 quantity + 1 <= qtyLimit! ? quantity + 1 : qtyLimit!,
               );
             } else {
-              updateQuantity(quantity + 1);
+              updateQuantity(
+                quantity + 1 <= qtyLimit! ? quantity + 1 : qtyLimit!,
+              );
             }
           } else {
             if (quantity > 0) {
@@ -114,10 +127,7 @@ class MStepper extends StatelessWidget {
     bool isAddButton,
     Color color,
   ) {
-    final width =
-        (MediaQuery.of(context).size.width / (kIsWeb == true ? 10 : 1.9)) / 3;
-    final height = MediaQuery.of(context).size.height / 16;
-    final isDisabled = quantity == limit;
+     final isDisabled = quantity == limit;
     final buttonColor =
         outlined == true
             ? Colors.white.withValues(alpha: isDisabled ? 0.3 : 1.0)
@@ -127,8 +137,6 @@ class MStepper extends StatelessWidget {
             ? color.withValues(alpha: isDisabled ? 0.3 : 1.0)
             : Colors.white.withValues(alpha: isDisabled ? 0.3 : 1.0);
     return Container(
-      width: width,
-      height: height,
       decoration: BoxDecoration(
         color: buttonColor,
         borderRadius: BorderRadius.only(
@@ -146,20 +154,18 @@ class MStepper extends StatelessWidget {
                   : Colors.transparent,
         ),
       ),
-      child: Center(
-        child: MText(
-          isAddButton ? '+' : '-',
-          fontWeight: FontWeight.bold,
-          color: textColor,
-          fontSize: 28,
-        ),
+      alignment: Alignment.center,
+      child: MText(
+        isAddButton ? '+' : '-',
+        fontWeight: FontWeight.bold,
+        color: textColor,
+        fontSize: fontSize,
       ),
     );
   }
 
   Widget buildText(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height / 16,
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(color: MColors.darkGrey, width: 2),
